@@ -1,0 +1,27 @@
+---
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+      - org.springframework.boot.autoconfigure.mongo.MongoReactiveAutoConfiguration
+
+secrets:
+  filePath: classpath:/secrets.yml
+
+mongodb:
+  database: recommendations
+  url: mongodb+srv://credentials@recommendations.zpvpytc.mongodb.net/?retryWrites=true&w=majority
+
+openApi:
+  model: text-embedding-ada-002
+
+connectors:
+  clientConfigs:
+    openApi:
+      host: https://api.openai.com
+      path:
+        embeddings: /v1/embeddings
+    tmdb:
+      host: https://api.themoviedb.org
+      path:
+        movies: /3/discover/movie
