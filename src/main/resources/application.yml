@@ -25,3 +25,12 @@ connectors:
       host: https://api.themoviedb.org
       path:
         movies: /3/discover/movie
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+secrets:
+  filePath: file:///etc/secrets/secrets.yml
