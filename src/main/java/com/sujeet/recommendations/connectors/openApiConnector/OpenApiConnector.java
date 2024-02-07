@@ -1,5 +1,6 @@
 package com.sujeet.recommendations.connectors.openApiConnector;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -13,6 +14,7 @@ import com.sujeet.recommendations.connectors.models.Connection;
 import com.sujeet.recommendations.entity.request.OpenApiRequest;
 import com.sujeet.recommendations.entity.response.OpenApiResponse;
 @Component
+@Slf4j
 public class OpenApiConnector extends BaseConnector {
 
     @Autowired
@@ -29,6 +31,7 @@ public class OpenApiConnector extends BaseConnector {
                 .headers(httpHeaders -> httpHeaders.setBearerAuth(secretProperties.getApiKey()))
                 .body(BodyInserters.fromValue(openApiRequest))
                 .retrieve()
-                .bodyToMono(OpenApiResponse.class);
+                .bodyToMono(OpenApiResponse.class)
+                .doOnSuccess(openApiResponse -> log.info("Successfully received response from OpenAI. Consumed {} Tokens", openApiResponse.getUsage().getTotalTokens()));
     }
 }

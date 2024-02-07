@@ -1,7 +1,6 @@
 package com.sujeet.recommendations.service.impl;
 
 import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.search.SearchPath;
 import com.mongodb.reactivestreams.client.MongoDatabase;
 import com.sujeet.recommendations.connectors.openApiConnector.OpenApiConnector;
 import com.sujeet.recommendations.connectors.tmdbConnector.TmdbConnector;
@@ -22,7 +21,6 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 import static com.mongodb.client.model.search.SearchPath.fieldPath;
-import static java.util.Arrays.asList;
 
 @Service
 @Slf4j
@@ -87,7 +85,8 @@ public class MovieServiceImpl implements MovieService {
                         .input(searchRequest1.getSearchInput())
                         .build()))
                 .flatMapMany(openApiResponse -> Flux.from(mongoDatabase.getCollection("movies")
-                        .aggregate(getPipeline(openApiResponse.getData().get(0).getEmbedding()), Movie.class)));
+                        .aggregate(getPipeline(openApiResponse.getData().get(0).getEmbedding()), Movie.class)))
+                .doOnNext(movie -> movie.setEmbeddings(null));
     }
 
     private List<Bson> getPipeline(List<Double> embeddings) {
