@@ -37,8 +37,8 @@ public class MovieServiceImpl implements MovieService {
     private OpenApiConnector openApiConnector;
 
     @Override
-    public Mono<TmdbResponse> getAllMovies(){
-        return connector.fetchMovies();
+    public Mono<TmdbResponse> getAllMovies(long page){
+        return connector.fetchMovies(page);
     }
 
     @Override

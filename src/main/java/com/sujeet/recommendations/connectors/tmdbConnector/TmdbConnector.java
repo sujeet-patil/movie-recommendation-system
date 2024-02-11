@@ -23,10 +23,11 @@ public class TmdbConnector extends BaseConnector {
         super(connection);
     }
 
-    public Mono<TmdbResponse> fetchMovies() {
+    public Mono<TmdbResponse> fetchMovies(long page) {
         return getWebClient()
                 .get()
-                .uri(getConnectionConfig().getPath().get("movies"))
+                .uri(getConnectionConfig().getPath().get("movies"),
+                        uriBuilder -> uriBuilder.queryParam("page", page).build())
                 .accept(MediaType.APPLICATION_JSON)
                 .headers(header-> header.setBearerAuth(secretProperties.getTmdbToken()))
                 .retrieve()

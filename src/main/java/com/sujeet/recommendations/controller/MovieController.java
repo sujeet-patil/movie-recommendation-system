@@ -21,8 +21,8 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping(value = "/movies")
-    public Mono<TmdbResponse> getMovies(){
-        return movieService.getAllMovies();
+    public Mono<TmdbResponse> getMovies(@RequestParam(required = false, defaultValue = "1") long page){
+        return movieService.getAllMovies(page);
     }
 
     @PostMapping(value = "/add")

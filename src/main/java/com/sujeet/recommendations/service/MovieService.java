@@ -9,7 +9,7 @@ import com.sujeet.recommendations.entity.response.TmdbResponse;
 import java.util.List;
 
 public interface MovieService {
-    Mono<TmdbResponse> getAllMovies();
+    Mono<TmdbResponse> getAllMovies(long page);
     Mono<Movie> addMovie(Movie movie);
     Mono<Movie> addMovieV2(Movie movie);
     Flux<Movie> addMultiple(List<Movie> movieList);
